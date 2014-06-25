@@ -10,6 +10,7 @@ import Claces.Distrito;
 import Claces.Tipo_Iglesia;
 import DAO.DistritoDAO;
 import DAO.IgelsiaDAO;//
+import DAO.TipoIglesiaDAO;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 
@@ -22,14 +23,39 @@ public class Principal extends javax.swing.JFrame {
     DefaultComboBoxModel<Object> comboDistrito = new DefaultComboBoxModel<Object>();
      DefaultComboBoxModel<Object> combotipoIglesia = new DefaultComboBoxModel<Object>();
      DistritoDAO dd= new DistritoDAO();
+    
      IgelsiaDAO  id= new IgelsiaDAO();
-     Tipo_Iglesia tpDAO= new Tipo_Iglesia();
+     TipoIglesiaDAO tpDAO= new TipoIglesiaDAO();
      ArrayList<Distrito> lista1= new ArrayList();
      ArrayList<Tipo_Iglesia> lista2= new ArrayList();
     public Principal() {
         initComponents();
+        cargarDistrito();
+        cargarTipo_Iglesia();
+        setLocationRelativeTo(null);
     }
-
+             final void  cargarDistrito()
+    {
+        comboDistrito.addElement("seleccionar Distrito");
+        cboDistrito.setModel(comboDistrito);
+        lista1=dd.ListarDistrito();
+        for(int i =0;i<lista1.size();i++)
+        {
+            comboDistrito.addElement(lista1.get(i).getDistrito());
+        }
+        cboDistrito.setModel(comboDistrito);
+    }
+   final void  cargarTipo_Iglesia()
+    {
+        combotipoIglesia.addElement("seleccionar Tipo  Iglesia");
+        cboTipoIglesia.setModel(combotipoIglesia);
+        lista2=tpDAO.ListarTipo_Iglesia();
+        for(int i =0;i<lista2.size();i++)
+        {
+            combotipoIglesia.addElement(lista2.get(i).getNom_tipo());
+        }
+        cboTipoIglesia.setModel(combotipoIglesia);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -40,60 +66,68 @@ public class Principal extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox();
+        cboDistrito = new javax.swing.JComboBox();
         jLabel2 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox();
+        cboTipoIglesia = new javax.swing.JComboBox();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        txtIglesia = new javax.swing.JTextField();
+        txtCuenta = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        btnAgregar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setText("jLabel1");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 20, -1, -1));
+        jLabel1.setText("Distrito:");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 20, -1, -1));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 20, -1, -1));
+        getContentPane().add(cboDistrito, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 20, 230, -1));
 
-        jLabel2.setText("jLabel1");
+        jLabel2.setText("Tipo Iglesia:");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 70, -1, -1));
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        getContentPane().add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 70, -1, -1));
+        getContentPane().add(cboTipoIglesia, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 70, 230, -1));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID", "Distrito", "tipo Iglesia", "iglesia", "Cuenta"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setMaxWidth(40);
+        }
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 220, -1, 90));
+        getContentPane().add(txtIglesia, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 110, 200, -1));
 
-        jTextField1.setText("jTextField1");
-        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 120, 200, -1));
+        txtCuenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCuentaActionPerformed(evt);
+            }
+        });
+        getContentPane().add(txtCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 150, 130, -1));
 
-        jTextField2.setText("jTextField2");
-        getContentPane().add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 160, 200, -1));
+        jLabel3.setText("Cuenta:");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 150, -1, -1));
 
-        jLabel3.setText("jLabel3");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, -1, -1));
+        jLabel4.setText("Iglesia:");
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 110, -1, -1));
 
-        jLabel4.setText("jLabel3");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, -1, -1));
+        btnAgregar.setText("Agregar");
+        getContentPane().add(btnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 150, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void txtCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCuentaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCuentaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -131,15 +165,16 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JComboBox jComboBox2;
+    private javax.swing.JButton btnAgregar;
+    private javax.swing.JComboBox cboDistrito;
+    private javax.swing.JComboBox cboTipoIglesia;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField txtCuenta;
+    private javax.swing.JTextField txtIglesia;
     // End of variables declaration//GEN-END:variables
 }
