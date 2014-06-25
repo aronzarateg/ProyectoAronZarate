@@ -14,22 +14,22 @@ import java.sql.SQLException;
  * @author aron
  */
 public class Tipo_Iglesia {
-    private int itti;
+    private int idti;
     private String nom_tipo;
-
-    public Tipo_Iglesia() {
-    }
 
     public Tipo_Iglesia(String nom_tipo) {
         this.nom_tipo = nom_tipo;
     }
 
-    public int getItti() {
-        return itti;
+    public Tipo_Iglesia() {
     }
 
-    public void setItti(int itti) {
-        this.itti = itti;
+    public int getIdti() {
+        return idti;
+    }
+
+    public void setIdti(int idti) {
+        this.idti = idti;
     }
 
     public String getNom_tipo() {
@@ -39,9 +39,11 @@ public class Tipo_Iglesia {
     public void setNom_tipo(String nom_tipo) {
         this.nom_tipo = nom_tipo;
     }
+
+   
      public static Tipo_Iglesia loadTipoIglesia(ResultSet rs) throws SQLException{
     Tipo_Iglesia igle = new Tipo_Iglesia();
-    igle.setItti(rs.getInt("idtipo_iglesia"));
+    igle.setIdti(rs.getInt("idtipo_iglesia"));
     igle.setNom_tipo(rs.getString("tipo_iglesia"));
    
    return igle;
