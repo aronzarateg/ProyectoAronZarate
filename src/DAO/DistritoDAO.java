@@ -21,8 +21,8 @@ import java.util.logging.Logger;
  */
 public class DistritoDAO 
 {
-     private Connection cx;
-     private Statement st;
+    private Connection cx;
+    private Statement st;
     private ResultSet rs;
     private String sql;
     public ArrayList<Distrito> ListarDistrito()
@@ -35,7 +35,13 @@ public class DistritoDAO
             rs=st.executeQuery(sql);
             while(rs.next())
             {
-                lista.add(Distrito.loadDistrito(rs));
+                Distrito d = new Distrito();
+                d.setIddistrito(rs.getInt("iddistrito"));
+                d.setIdregion(rs.getInt("idregion"));
+                d.setDistrito(rs.getString("distrito"));
+                d.setEstado(rs.getString("estado"));
+                //lista.add(Distrito.loadDistrito(rs));
+                lista.add(d);
                 
             }
         } catch (Exception e) {

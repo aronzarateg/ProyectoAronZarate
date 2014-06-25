@@ -13,17 +13,17 @@ import java.sql.SQLException;
  *
  * @author aron
  */
-public class Igelsia {
+public class Iglesia {
     private int idiglesia;
     private int iddistrito;
     private int idtipoiglesia;
     private String iglesia;
     private int cuenta;
 
-    public Igelsia() {
+    public Iglesia() {
     }
 
-    public Igelsia(int iddistrito, int idtipoiglesia, String iglesia, int cuenta) {
+    public Iglesia(int iddistrito, int idtipoiglesia, String iglesia, int cuenta) {
         this.iddistrito = iddistrito;
         this.idtipoiglesia = idtipoiglesia;
         this.iglesia = iglesia;
@@ -69,9 +69,9 @@ public class Igelsia {
     public void setCuenta(int cuenta) {
         this.cuenta = cuenta;
     }
-    public static Igelsia loadIglesia(ResultSet rs) throws SQLException{//sele adiciona la metodo
+    public static Iglesia loadIglesia(ResultSet rs) throws SQLException{//sele adiciona la metodo
         //poruqe  es una consulta de la base de datos.
-    Igelsia igle = new Igelsia();
+    Iglesia igle = new Iglesia();
     igle.setIdiglesia(rs.getInt("idiglesia"));
     igle.setIddistrito(rs.getInt("iddistrito"));
      igle.setIdtipoiglesia(rs.getInt("idtipo_iglesia"));

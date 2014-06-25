@@ -6,7 +6,7 @@
 
 package DAO;
 
-import Claces.Igelsia;
+import Claces.Iglesia;
 import Claces.Tipo_Iglesia;
 import Conexion.Conexxion;
 import java.sql.Connection;
@@ -36,7 +36,12 @@ public class TipoIglesiaDAO
             rs=st.executeQuery(sql);
             while(rs.next())
             {
-                lista.add(Tipo_Iglesia.loadTipoIglesia(rs));
+                     Tipo_Iglesia d = new Tipo_Iglesia ();
+                d.setIdti(rs.getInt("idtipo_iglesia"));
+                d.setNom_tipo(rs.getString("tipo_iglesia"));
+               
+                lista.add(d);
+                //lista.add(Tipo_Iglesia.loadTipoIglesia(rs));
                 
             }
         } catch (Exception e) {

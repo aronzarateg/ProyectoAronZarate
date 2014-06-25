@@ -6,7 +6,7 @@
 
 package DAO;
 
-import Claces.Igelsia;
+import Claces.Iglesia;
 import Conexion.Conexxion;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -24,9 +24,9 @@ public class IgelsiaDAO {
      private Statement st;
     private ResultSet rs;
     private String sql;
-    public ArrayList<Igelsia> ListarDistrito()
+    public ArrayList<Iglesia> ListarDistrito()
     {
-        ArrayList<Igelsia> lista= new ArrayList();
+        ArrayList<Iglesia> lista= new ArrayList();
             try {
             cx=Conexxion.getConexion();
             sql="SELECT* FROM iglesia";
@@ -34,7 +34,7 @@ public class IgelsiaDAO {
             rs=st.executeQuery(sql);
             while(rs.next())
             {
-                lista.add(Igelsia.loadIglesia(rs));
+                lista.add(Iglesia.loadIglesia(rs));
                 
             }
         } catch (Exception e) {
