@@ -9,7 +9,7 @@ package Formularios;
 import Claces.Distrito;
 import Claces.Tipo_Iglesia;
 import DAO.DistritoDAO;
-import DAO.IgelsiaDAO;
+import DAO.IgelsiaDAO;//
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 
