@@ -11,6 +11,7 @@ import Claces.Tipo_Iglesia;
 import Conexion.Conexxion;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -48,6 +49,26 @@ public class TipoIglesiaDAO
             Logger.getLogger(DistritoDAO.class.getName()).log(Level.SEVERE, null, e);
         }
             return lista;
+    }
+    public int idTipoIglesia(String nom)
+    {
+        int id=0;
+        sql="SELECT * FROM  tipo_iglesia WHERE tipo_iglesia='"+nom+"' ";
+        try {
+            cx=Conexxion.getConexion();
+           
+            st=cx.createStatement();
+            rs=st.executeQuery(sql);
+            while(rs.next())
+            {
+               id=rs.getInt("idtipo_iglesia");
+            }
+            
+        } catch (SQLException e) {
+            
+        }
+
+        return id;
     }
     
 }

@@ -24,7 +24,8 @@ public class IgelsiaDAO {
      private Statement st;
     private ResultSet rs;
     private String sql;
-    public ArrayList<Iglesia> ListarDistrito()
+    int op=0;
+    public ArrayList<Iglesia> ListarIglesia()
     {
         ArrayList<Iglesia> lista= new ArrayList();
             try {
@@ -41,6 +42,25 @@ public class IgelsiaDAO {
             Logger.getLogger(DistritoDAO.class.getName()).log(Level.SEVERE, null, e);
         }
             return lista;
+    }
+    public int registrarIglesia(int idd,int idtipoiglesia,String nombre,int cuenta)
+    {
+        sql="INSERT INTO iglesia VALUES(null,'"+idd+"','"+idtipoiglesia+"','"+nombre+"','"+cuenta+"') ";
+    try {
+            cx=Conexxion.getConexion();
+          
+            st=cx.createStatement();
+            op=st.executeUpdate(sql);
+            while(rs.next())
+            {
+                //lista.add(Iglesia.loadIglesia(rs));
+                
+            }
+        } catch (Exception e) {
+            Logger.getLogger(DistritoDAO.class.getName()).log(Level.SEVERE, null, e);
+        }
+    return op;
+    
     }
     
 }
