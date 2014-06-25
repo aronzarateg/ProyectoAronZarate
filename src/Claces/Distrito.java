@@ -12,7 +12,7 @@ import java.sql.SQLException;
 /**
  *
  * @author aron
- */
+ *///ARON ZARATE GONZALES
 public class Distrito 
 {
     private int iddistrito;
