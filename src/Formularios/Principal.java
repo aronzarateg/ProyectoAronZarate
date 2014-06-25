@@ -136,7 +136,11 @@ public class Principal extends javax.swing.JFrame {
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         // TODO add your handling code here:
-        
+        int idd= dd.idDistrito(cboDistrito.getSelectedItem().toString());
+        int idti= tpDAO.idTipoIglesia(cboTipoIglesia.getSelectedItem().toString());
+        String iglesia= txtIglesia.getText();
+        int cuenta= Integer.parseInt(txtCuenta.getText());
+        int x=id.registrarIglesia(idd, idti, iglesia, cuenta);
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     /**

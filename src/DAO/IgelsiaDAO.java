@@ -10,6 +10,7 @@ import Claces.Iglesia;
 import Conexion.Conexxion;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -45,7 +46,7 @@ public class IgelsiaDAO {
     }
     public int registrarIglesia(int idd,int idtipoiglesia,String nombre,int cuenta)
     {
-        sql="INSERT INTO iglesia VALUES(null,'"+idd+"','"+idtipoiglesia+"','"+nombre+"','"+cuenta+"') ";
+        sql="INSERT INTO iglesia VALUES('"+maxidIglesia()+"','"+idd+"','"+idtipoiglesia+"','"+nombre+"','"+cuenta+"') ";
     try {
             cx=Conexxion.getConexion();
           
@@ -61,6 +62,27 @@ public class IgelsiaDAO {
         }
     return op;
     
+    }
+     
+    public int maxidIglesia()
+    {
+        int v=0;
+        sql="SELECT MAX() AS id FROM iglesia";
+        
+           cx=Conexxion.getConexion();
+         try {
+             st=cx.createStatement();
+             rs=st.executeQuery(sql);
+             while(rs.next())
+             {
+                 v=rs.getInt("id");
+             }
+         } catch (SQLException ex) {
+             Logger.getLogger(IgelsiaDAO.class.getName()).log(Level.SEVERE, null, ex);
+         }
+            
+        
+        return v;
     }
     
 }
