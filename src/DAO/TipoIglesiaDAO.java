@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 /**
  *
  * @author aron
- */
+ *///ARON ZARATE GONZALES
 public class TipoIglesiaDAO
 {
      private Connection cx;
