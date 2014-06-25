@@ -11,5 +11,8 @@ package Claces;
  * @author aron
  */
 public class Persona {
+    private int idpersona;
+    private String nombreapellidos;
+    private String direccion;
     
 }
