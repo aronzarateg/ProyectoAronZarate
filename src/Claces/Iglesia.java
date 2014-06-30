@@ -69,6 +69,7 @@ public class Iglesia {
     public void setCuenta(int cuenta) {
         this.cuenta = cuenta;
     }
+    /*
     public static Iglesia loadIglesia(ResultSet rs) throws SQLException{//sele adiciona la metodo
         //poruqe  es una consulta de la base de datos.
     Iglesia igle = new Iglesia();
@@ -80,4 +81,5 @@ public class Iglesia {
    return igle;
     
     }
+    */
 }

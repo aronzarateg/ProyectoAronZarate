@@ -7,12 +7,20 @@
 package Formularios;
 
 import Claces.Distrito;
+import Claces.Iglesia;
 import Claces.Tipo_Iglesia;
+import Conexion.Conexxion;
 import DAO.DistritoDAO;
 import DAO.IgelsiaDAO;//
 import DAO.TipoIglesiaDAO;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -22,16 +30,23 @@ public class Principal extends javax.swing.JFrame {
 
     DefaultComboBoxModel<Object> comboDistrito = new DefaultComboBoxModel<Object>();
      DefaultComboBoxModel<Object> combotipoIglesia = new DefaultComboBoxModel<Object>();
+     DefaultTableModel model = new DefaultTableModel();
      DistritoDAO dd= new DistritoDAO();
     
      IgelsiaDAO  id= new IgelsiaDAO();
      TipoIglesiaDAO tpDAO= new TipoIglesiaDAO();
      ArrayList<Distrito> lista1= new ArrayList();
      ArrayList<Tipo_Iglesia> lista2= new ArrayList();
+     ArrayList<Iglesia> lista3= new ArrayList();
+     
+     
+     Conexxion cx = new Conexxion();
+     Connection cn ;
     public Principal() {
         initComponents();
         cargarDistrito();
         cargarTipo_Iglesia();
+        listarIglesias();
         setLocationRelativeTo(null);
     }
              final void  cargarDistrito()
@@ -70,27 +85,44 @@ public class Principal extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         cboTipoIglesia = new javax.swing.JComboBox();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jtIglesia = new javax.swing.JTable();
         txtIglesia = new javax.swing.JTextField();
         txtCuenta = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         btnAgregar = new javax.swing.JButton();
+        txtIdTP = new javax.swing.JTextField();
+        txtIddistrito = new javax.swing.JTextField();
+        jPanel1 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
+        btnNuevo = new javax.swing.JButton();
+        txtCod = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setText("Distrito:");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 20, -1, -1));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 50, -1, -1));
 
-        getContentPane().add(cboDistrito, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 20, 230, -1));
+        cboDistrito.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboDistritoActionPerformed(evt);
+            }
+        });
+        getContentPane().add(cboDistrito, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 50, 230, -1));
 
         jLabel2.setText("Tipo Iglesia:");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 70, -1, -1));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 100, -1, -1));
 
-        getContentPane().add(cboTipoIglesia, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 70, 230, -1));
+        cboTipoIglesia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboTipoIglesiaActionPerformed(evt);
+            }
+        });
+        getContentPane().add(cboTipoIglesia, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 100, 230, -1));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jtIglesia.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -98,26 +130,31 @@ public class Principal extends javax.swing.JFrame {
                 "ID", "Distrito", "tipo Iglesia", "iglesia", "Cuenta"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setMaxWidth(40);
+        jtIglesia.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtIglesiaMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jtIglesia);
+        if (jtIglesia.getColumnModel().getColumnCount() > 0) {
+            jtIglesia.getColumnModel().getColumn(0).setMaxWidth(40);
         }
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 220, -1, 90));
-        getContentPane().add(txtIglesia, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 110, 200, -1));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 220, -1, 120));
+        getContentPane().add(txtIglesia, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 140, 200, -1));
 
         txtCuenta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtCuentaActionPerformed(evt);
             }
         });
-        getContentPane().add(txtCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 150, 130, -1));
+        getContentPane().add(txtCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 180, 130, -1));
 
         jLabel3.setText("Cuenta:");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 150, -1, -1));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 180, -1, -1));
 
         jLabel4.setText("Iglesia:");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 110, -1, -1));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 140, -1, -1));
 
         btnAgregar.setText("Agregar");
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
@@ -125,7 +162,35 @@ public class Principal extends javax.swing.JFrame {
                 btnAgregarActionPerformed(evt);
             }
         });
-        getContentPane().add(btnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 150, -1, -1));
+        getContentPane().add(btnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 180, -1, -1));
+
+        txtIdTP.setEnabled(false);
+        getContentPane().add(txtIdTP, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 100, 70, -1));
+
+        txtIddistrito.setEnabled(false);
+        getContentPane().add(txtIddistrito, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 50, 70, -1));
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("BOTONES"));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButton1.setText("jButton1");
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 30, -1, 60));
+
+        btnNuevo.setText("NUEVO");
+        btnNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnNuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 30, -1, 60));
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 350, 510, 110));
+
+        txtCod.setEnabled(false);
+        getContentPane().add(txtCod, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 10, 70, -1));
+
+        jLabel5.setText("COD:");
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 10, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -136,12 +201,70 @@ public class Principal extends javax.swing.JFrame {
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         // TODO add your handling code here:
-        int idd= dd.idDistrito(cboDistrito.getSelectedItem().toString());
-        int idti= tpDAO.idTipoIglesia(cboTipoIglesia.getSelectedItem().toString());
-        String iglesia= txtIglesia.getText();
-        int cuenta= Integer.parseInt(txtCuenta.getText());
-        int x=id.registrarIglesia(idd, idti, iglesia, cuenta);
+        int idd = dd.idDistrito(cboDistrito.getSelectedItem().toString());
+        int idti = tpDAO.idTipoIglesia(cboTipoIglesia.getSelectedItem().toString());
+        String iglesia = txtIglesia.getText();
+        int cuenta = Integer.parseInt(txtCuenta.getText());
+        int x = id.registrarIglesia(idd, idti, iglesia, cuenta);
+        if(x>0){
+            JOptionPane.showMessageDialog(null, "Exito");
+            updateComponets();
+            //listarEquipo();
+            limpiar();
+            
+        }else{
+            JOptionPane.showMessageDialog(null, "Falla");
+        }
     }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void cboDistritoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboDistritoActionPerformed
+        // TODO add your handling code here:
+        String Distrito= cboDistrito.getSelectedItem().toString();
+        
+        int id;
+        int x= cboDistrito.getSelectedIndex();
+        if(x!=0)
+        {
+            id=dd.idDistrito(Distrito);
+            txtIddistrito.setText(""+id);
+        }
+    }//GEN-LAST:event_cboDistritoActionPerformed
+
+    private void cboTipoIglesiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboTipoIglesiaActionPerformed
+        // TODO add your handling code here:
+        String TIPOIGLESIA= cboTipoIglesia.getSelectedItem().toString();
+        
+        int id;
+        int x= cboTipoIglesia.getSelectedIndex();
+        if(x!=0)
+        {
+            id=tpDAO.idTipoIglesia(TIPOIGLESIA);
+            txtIdTP.setText(""+id);
+        }
+    }//GEN-LAST:event_cboTipoIglesiaActionPerformed
+
+    private void jtIglesiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtIglesiaMouseClicked
+        // TODO add your handling code here:
+        int fila=jtIglesia.rowAtPoint(evt.getPoint());
+        txtCod.setText(jtIglesia.getValueAt(fila,0).toString());
+        txtIddistrito.setText(jtIglesia.getValueAt(fila,1).toString());
+        txtIdTP.setText(jtIglesia.getValueAt(fila,2).toString());
+        txtIglesia.setText(jtIglesia.getValueAt(fila,3).toString());
+        txtCuenta.setText(jtIglesia.getValueAt(fila,4).toString());
+        
+        //btnEliminar.setEnabled(true);
+        //btnModificar.setEnabled(true);
+        btnAgregar.setEnabled(false);
+    }//GEN-LAST:event_jtIglesiaMouseClicked
+
+    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
+        // TODO add your handling code here:
+        txtCod.setText(null);
+        txtCuenta.setText(null);
+        txtIdTP.setText(null);
+        txtIddistrito.setText(null);
+        txtIglesia.setText(null);
+    }//GEN-LAST:event_btnNuevoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -177,18 +300,63 @@ public class Principal extends javax.swing.JFrame {
             }
         });
     }
-
+ void listarIglesias(){
+    lista3 =id.ListarIglesia();
+    model = (DefaultTableModel) jtIglesia.getModel();
+        Object[] usu = new Object[5];
+        for(int i=0;i<lista3.size();i++){
+            usu[0]=lista3.get(i).getIdiglesia();
+            usu[1]=lista3.get(i).getIddistrito();
+            usu[2]=lista3.get(i).getIdtipoiglesia();
+            usu[3]=lista3.get(i).getIglesia();
+            usu[4]=lista3.get(i).getCuenta();
+           
+            model.addRow(usu);
+               
+        jtIglesia.setModel(model);
+        }
+}
+void limpiar(){
+        txtCuenta.setText(null);
+        txtIdTP.setText(null);
+        txtIddistrito.setText(null);
+        txtIglesia.setText(null);
+        cboDistrito.setSelectedIndex(0);
+        cboTipoIglesia.setSelectedIndex(0);
+        
+        }
+void updateComponets(){
+    LimpiarTabla(model);
+    listarIglesias();
+//    modelocombo.removeAllElements();
+    //cargarCombo();
+    //modelolista.clear();
+    //cargarList();    
+    }
+    void LimpiarTabla(DefaultTableModel modelo){
+        int a =modelo.getRowCount()-1;
+        for(int i=a;i>=0;i--){  
+            modelo.removeRow(i);
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
+    private javax.swing.JButton btnNuevo;
     private javax.swing.JComboBox cboDistrito;
     private javax.swing.JComboBox cboTipoIglesia;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jtIglesia;
+    private javax.swing.JTextField txtCod;
     private javax.swing.JTextField txtCuenta;
+    private javax.swing.JTextField txtIdTP;
+    private javax.swing.JTextField txtIddistrito;
     private javax.swing.JTextField txtIglesia;
     // End of variables declaration//GEN-END:variables
 }
